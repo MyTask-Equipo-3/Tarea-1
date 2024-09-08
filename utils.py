@@ -1,10 +1,16 @@
 def filter_tasks_by_label(tasks,label):
+    for i in range(1,len(tasks) + 1):
+        tasks[i - 1] = tasks[i - 1] | {"id":i}
     return list(filter(lambda task: task["etiqueta"] == label,tasks))
 
 def filter_tasks_by_expiration_date(tasks,date):
+    for i in range(1,len(tasks) + 1):
+        tasks[i - 1] = tasks[i - 1] | {"id":i}
     return list(filter(lambda task: task["fecha_vencimiento"] == date,tasks))
 
 def filter_tasks_by_status(tasks,status):
+    for i in range(1,len(tasks) + 1):
+        tasks[i - 1] = tasks[i - 1] | {"id":i}
     return list(filter(lambda task: task["estado"] == status,tasks))
 
 # Distancia de leveshtein para poder buscar palabras con error.
@@ -25,20 +31,22 @@ def levenshtein_distance(s1,s2):
 def search_task_by_title(tasks,title):
     distance = int(1e9)
     searched_task = None
-    for task in tasks:
+    for i,task in enumerate(tasks,start=1):
         d = levenshtein_distance(task["titulo"].lower(),title.lower())
         if d < distance:
             d = distance
             searched_task = task
+            searched_task["id"] = i
     return searched_task
 
 def search_task_by_description(tasks,description):
     distance = int(1e9)
     searched_task = None
-    for task in tasks:
+    for i,task in enumerate(tasks,start=1):
         d = levenshtein_distance(task["titulo"].lower(),description.lower())
         if d < distance:
             d = distance
             searched_task = task
+            searched_task["id"] = i
     return searched_task
 

@@ -46,6 +46,15 @@ def create_task(username, title, description, due_date, label):
     print("Tarea creada exitosamente.")
 
 
+def show_tasks_with_id(tareas):
+    for tarea in tareas:
+        print(f"\nTarea {tarea['id']}:")
+        print(f"  Título: {tarea['titulo']}")
+        print(f"  Descripción: {tarea['descripcion']}")
+        print(f"  Fecha de vencimiento: {tarea['fecha_vencimiento']}")
+        print(f"  Etiqueta: {tarea['etiqueta']}")
+        print(f"  Estado: {tarea['estado']}")
+
 def show_tasks(tareas):
     for idx, tarea in enumerate(tareas, start=1):
         print(f"\nTarea {idx}:")

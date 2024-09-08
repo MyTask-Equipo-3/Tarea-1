@@ -76,10 +76,10 @@ def main():
             label = input("Etiqueta: ")
 
             print("La nueva tarea a agregar será:\n")
-            print(f"  Título: 'title'")
-            print(f"  Descripción: 'description'")
-            print(f"  Fecha de vencimiento: 'due_date'")
-            print(f"  Etiqueta: 'label'")
+            print(f"  Título: {title}")
+            print(f"  Descripción: {description}")
+            print(f"  Fecha de vencimiento: {due_date}")
+            print(f"  Etiqueta: {label}")
             print(f"  Estado: abierto")
 
             cancelar = input("Esta correcto?\n1. Confirmar\n2. Cancelar\n")
@@ -104,7 +104,7 @@ def main():
             filter_option = input("Selecciona una opción: ").strip()
             if filter_option == "1":
                 label = input("Ingresa la etiqueta: ").strip()
-                tasks.show_tasks(
+                tasks.show_tasks_with_id(
                     utils.filter_tasks_by_label(
                         tasks.load_tasks(username),
                         label
@@ -112,7 +112,7 @@ def main():
                 )
             elif filter_option == "2":
                 status = input("Ingresa el estado (pendiente, en progreso o completada): ").strip()
-                tasks.show_tasks(
+                tasks.show_tasks_with_id(
                     utils.filter_tasks_by_status(
                         tasks.load_tasks(username),
                         status
@@ -120,7 +120,7 @@ def main():
                 )
             elif filter_option == "3":
                 date = input("Ingresa la fecha de vencimiento (YYYY-MM-DD): ").strip()
-                tasks.show_tasks(
+                tasks.show_tasks_with_id(
                     utils.filter_tasks_by_expiration_date(
                         tasks.load_tasks(username),
                         date
@@ -146,7 +146,7 @@ def main():
                 task = utils.search_task_by_title(tasks.load_tasks(username), title)
                 if task:
                     print("La tarea más cercana al título ingresado es: ")
-                    tasks.show_tasks([task])
+                    tasks.show_tasks_with_id([task])
                 else:
                     print("Tarea no encontrada.")
             elif search_option == "2":
@@ -154,7 +154,7 @@ def main():
                 task = utils.search_task_by_description(tasks.load_tasks(username), description)
                 if task:
                     print("La tarea más cercana a la descripción ingresada es: ")
-                    tasks.show_tasks([task])
+                    tasks.show_tasks_with_id([task])
                 else:
                     print("Tarea no encontrada.")
             else:
