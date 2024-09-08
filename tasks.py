@@ -46,13 +46,7 @@ def create_task(username, title, description, due_date, label):
     print("Tarea creada exitosamente.")
 
 
-# Función para ver todas las tareas
-def list_tasks(username):
-    tareas = load_tasks(username)
-    if not tareas:
-        print("No hay tareas.")
-        return
-    
+def show_tasks(tareas):
     for idx, tarea in enumerate(tareas, start=1):
         print(f"\nTarea {idx}:")
         print(f"  Título: {tarea['titulo']}")
@@ -60,6 +54,16 @@ def list_tasks(username):
         print(f"  Fecha de vencimiento: {tarea['fecha_vencimiento']}")
         print(f"  Etiqueta: {tarea['etiqueta']}")
         print(f"  Estado: {tarea['estado']}")
+
+# Función para ver todas las tareas
+def list_tasks(username):
+    tareas = load_tasks(username)
+    if not tareas:
+        print("No hay tareas.")
+        return
+    
+    show_tasks(tareas)
+    
 
 def update_task(index, username):
 

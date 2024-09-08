@@ -12,8 +12,10 @@ def hash_password(password):
 def load_users():
     try:
         with open(USUARIOS_FILE, "r") as file:
-            return json.load(file)   #["users"]?
+            return json.load(file)["users"]   #["users"]?
     except FileNotFoundError:
+        return []
+    except:
         return []
     
 def register(username, password):

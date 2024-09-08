@@ -1,6 +1,6 @@
 import auth
 import tasks
-
+import utils
 
 
 def main():
@@ -95,9 +95,75 @@ def main():
             index = int(input("Índice de tarea a actualizar: ")) - 1
             tasks.update_task(index, username)
 
-        # elif option == "4":
-        # elif option == "5":
-        
+        elif option == "4":
+            print("Selecciona la opción de filtrado:")
+            print("1. Filtrar por etiqueta")
+            print("2. Filtrar por estado")
+            print("3. Filtrar por fecha de vencimiento")
+            
+            filter_option = input("Selecciona una opción: ").strip()
+            if filter_option == "1":
+                label = input("Ingresa la etiqueta: ").strip()
+                tasks.show_tasks(
+                    utils.filter_tasks_by_label(
+                        tasks.load_tasks(username),
+                        label
+                    )
+                )
+            elif filter_option == "2":
+                status = input("Ingresa el estado (pendiente, en progreso o completada): ").strip()
+                tasks.show_tasks(
+                    utils.filter_tasks_by_status(
+                        tasks.load_tasks(username),
+                        status
+                    )
+                )
+            elif filter_option == "3":
+                date = input("Ingresa la fecha de vencimiento (YYYY-MM-DD): ").strip()
+                tasks.show_tasks(
+                    utils.filter_tasks_by_expiration_date(
+                        tasks.load_tasks(username),
+                        date
+                    )
+                )
+            else:
+                print("Opción no válida, cancelando operación")
+                continue
+
+            print("\n===========================")
+            input("Enter para volver al Menú: ")
+
+
+        elif option == "5":
+            print("Selecciona la opción de búsqueda:")
+            print("1. Búsqueda por título")
+            print("2. Búsqueda por descripción")
+            
+            search_option = input("Selecciona una opción: ").strip()
+
+            if search_option == "1":
+                title = input("Ingresa el título: ")
+                task = utils.search_task_by_title(tasks.load_tasks(username), title)
+                if task:
+                    print("La tarea más cercana al título ingresado es: ")
+                    tasks.show_tasks([task])
+                else:
+                    print("Tarea no encontrada.")
+            elif search_option == "2":
+                description = input("Ingresa la descripción: ")
+                task = utils.search_task_by_description(tasks.load_tasks(username), description)
+                if task:
+                    print("La tarea más cercana a la descripción ingresada es: ")
+                    tasks.show_tasks([task])
+                else:
+                    print("Tarea no encontrada.")
+            else:
+                print("Opción no válida, cancelando operación")
+                continue
+
+            print("\n===========================")
+            input("Enter para volver al Menú: ")
+
         elif option == "6":
             index = int(input("Índice de tarea a eliminar: ")) - 1
             tasks.delete_task(index, username)
