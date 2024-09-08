@@ -5,82 +5,114 @@ import tasks
 
 def main():
     
-    print("Bienvenido al sistema de gestión de tareas.")
+    print("""
+          ======================================================
+          |                                                    |
+          |             BIENVENIDO A MyTask                    |
+          |                                                    |
+          ======================================================
+        """)
+    
+    user_logged = False
 
-    # Autenticación de usuario
     while True:
-        print("\n1. Iniciar sesión")
-        print("2. Registrarse")
-        opcion = input("Seleccione una opción: ")
+        
+        if not user_logged:
 
-        username = input("Nombre de usuario:")
-        password = input("Contraseña:")
+            print("""
+              =================== Ingreso ================
+              1. Iniciar sesión
+              2. Registrarse
+              3. Salir del programa
+              ======================================================
+            """)
 
-        if opcion == '1':
-            break
-        elif opcion == '2':
-            if auth.register(username, password):
-                break
+            opcion = input("Seleccione una opción: ")
+
+            if opcion == '1':
+                username = input("Nombre de usuario:")
+                password = input("Contraseña:")
+                user_logged = auth.login(username, password)
+
+            elif opcion == '2':
+                username = input("Nombre de usuario:")
+                password = input("Contraseña:")
+                user_logged = auth.register(username, password)
+            elif opcion == '3':
+                return
             else:
-                print("Error al registrar usuario")
-        else:
-            print("Opción no válida")
+                print("Opción no válida")
+                continue
 
-    if auth.login(username, password):
-        while True:
-            print("\n1. Crear nueva tarea")
-            print("2. Ver mis tareas")
-            print("3. Cerrar sesión")
+            if not user_logged:
+                continue
 
-            option = input("Selecciona una opción: ")
-            
-            if option == "1":
-                title = input("Título: ")
-                description = input("Descripción: ")
-                due_date = input("Fecha de vencimiento (YYYY-MM-DD): ")
-                label = input("Etiqueta: ")
+
+        print("""
+            ===== MENÚ PRINCIPAL =====
+            1. Ver todas mis tareas
+            2. Crear nueva tarea
+            3. Actualizar tarea
+            4. Filtrar tareas
+            5. Buscar tarea
+            6. Eliminar tarea
+            7. Eliminar todas las tareas
+            8. Cerrar sesión
+            9. Salir del programa
+            ===========================
+            """)
+
+        option = input("Selecciona una opción: ")
+
+        if option == "1":
+            tasks.list_tasks(username)
+            print("\n===========================")
+            input("Enter para volver al Menú: ")
+        
+        elif option == "2":
+            title = input("Título: ")
+            description = input("Descripción: ")
+            due_date = input("Fecha de vencimiento (YYYY-MM-DD): ")
+            label = input("Etiqueta: ")
+
+            print("La nueva tarea a agregar será:\n")
+            print(f"  Título: 'title'")
+            print(f"  Descripción: 'description'")
+            print(f"  Fecha de vencimiento: 'due_date'")
+            print(f"  Etiqueta: 'label'")
+            print(f"  Estado: abierto")
+
+            cancelar = input("Esta correcto?\n1. Confirmar\n2. Cancelar\n")
+            if cancelar == "1":
                 tasks.create_task(username, title, description, due_date, label)
-            elif option == "2":
-                tasks.list_tasks(username)
-
-                print("\n1. Actualizar tarea")
-                print("2. Eliminar tarea")
-                print("3. Eliminar todas")
-                print("4. Volver al menú")
-
-                option = input("Selecciona una opción: ")
-
-                if option == "1":
-                    index = int(input("Índice de tarea a actualizar: ")) - 1
-                    tareas = tasks.load_tasks(username)
-                    if index < 0 or index >= len(tareas):
-                        print("Número de tarea inválido.")
-                    else:
-                        tasks.update_task(index, username)
-
-                elif option == "2":
-                    index = int(input("Índice de tarea a eliminar: ")) - 1
-                    tasks.delete_task(index)
-
-                elif option == "3":
-                    index = int(input("Índice de tarea a eliminar: ")) - 1
-                    tasks.delete_task(index, username)
-
-                elif option == "4":
-                    index = int(input("Índice de tarea a eliminar: ")) - 1
-                    tasks.delete_task(index)
-
-                else:
-                    print("Opción no válida.")
-
-            elif option == "3":
-                print("Saliendo del sistema.")
-                break
+            elif cancelar == "2":
+                continue
             else:
-                print("Opción no válida.")
-                
-    else:
-        print("Error al iniciar sesión")
+                print("Opcion no valida, cancelando operacion")
+                continue
+
+        elif option == "3":
+            index = int(input("Índice de tarea a actualizar: ")) - 1
+            tasks.update_task(index, username)
+
+        # elif option == "4":
+        # elif option == "5":
+        
+        elif option == "6":
+            index = int(input("Índice de tarea a eliminar: ")) - 1
+            tasks.delete_task(index, username)
+        
+        elif option == "7":
+            tasks.delete_all(index, username)
+
+        elif option == "8":
+            user_logged = False
+
+        elif option == "9":
+            return
+
+        else:
+            print("Opción no válida.")
 
 if __name__ == "__main__":
     main()

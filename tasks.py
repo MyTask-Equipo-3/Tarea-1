@@ -64,6 +64,10 @@ def list_tasks(username):
 def update_task(index, username):
 
     tareas = load_tasks(username)
+    if index < 0 or index >= len(tareas):
+        print("Número de tarea inválido.")
+        return
+
 
     title = input("Actualizar título (deja en blanco para mantener): ")
     description = input("Actualizar descripción (deja en blanco para mantener): ")
@@ -88,3 +92,30 @@ def update_task(index, username):
 
     save_tasks(username, tareas)
     print("Tarea actualizada con éxito.")
+
+# Función para eliminar una tarea
+def delete_task(index, username):
+
+    tareas = load_tasks(username)
+    
+    if index < 0 or index >= len(tareas):
+        print("Número de tarea inválido.")
+        return
+    
+    tarea_eliminada = tareas.pop(index)
+    save_tasks(username, tareas)
+    print("Tarea '{tarea_eliminada['title']}' eliminada con éxito.")
+
+# Función para eliminar todas las tareas de un usuario
+def delete_all(username):
+    # Cargar las tareas actuales del archivo
+    tasks = load_tasks(username)
+    
+    # Verificar si ya no hay tareas
+    if not tasks:
+        print(f"El usuario {username} no tiene tareas para eliminar.")
+        return
+    
+    # Sobrescribir las tareas del usuario con una lista vacía
+    save_tasks(username, [])
+    print(f"Todas las tareas del usuario {username} han sido eliminadas con éxito.")
