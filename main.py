@@ -28,11 +28,9 @@ def main():
 
     if auth.login(username, password):
         while True:
-            print("\n1. Crear tarea")
-            print("2. Buscar tareas")
-            print("3. Actualizar tarea")
-            print("4. Eliminar tarea")
-            print("5. Salir")
+            print("\n1. Crear nueva tarea")
+            print("2. Ver mis tareas")
+            print("3. Cerrar sesión")
 
             option = input("Selecciona una opción: ")
             
@@ -42,26 +40,42 @@ def main():
                 due_date = input("Fecha de vencimiento (YYYY-MM-DD): ")
                 label = input("Etiqueta: ")
                 tasks.create_task(username, title, description, due_date, label)
-
             elif option == "2":
-                list_tasks()
+                tasks.list_tasks(username)
+
+                print("\n1. Actualizar tarea")
+                print("2. Eliminar tarea")
+                print("3. Eliminar todas")
+                print("4. Volver al menú")
+
+                option = input("Selecciona una opción: ")
+
+                if option == "1":
+                    index = int(input("Índice de tarea a actualizar: ")) - 1
+                    tareas = tasks.load_tasks(username)
+                    if index < 0 or index >= len(tareas):
+                        print("Número de tarea inválido.")
+                    else:
+                        tasks.update_task(index, username)
+
+                elif option == "2":
+                    index = int(input("Índice de tarea a eliminar: ")) - 1
+                    tasks.delete_task(index)
+
+                elif option == "3":
+                    index = int(input("Índice de tarea a eliminar: ")) - 1
+                    tasks.delete_task(index, username)
+
+                elif option == "4":
+                    index = int(input("Índice de tarea a eliminar: ")) - 1
+                    tasks.delete_task(index)
+
+                else:
+                    print("Opción no válida.")
 
             elif option == "3":
-                index = int(input("Índice de tarea a actualizar: ")) - 1
-                title = input("Nuevo título (o deja en blanco para mantener): ")
-                description = input("Nueva descripción (o deja en blanco para mantener): ")
-                due_date = input("Nueva fecha de vencimiento (YYYY-MM-DD): ")
-                label = input("Nueva etiqueta (o deja en blanco para mantener): ")
-                update_task(index, {"title": title, "description": description, "due_date": due_date, "label": label})
-
-            elif option == "4":
-                index = int(input("Índice de tarea a eliminar: ")) - 1
-                delete_task(index)
-
-            elif option == "5":
                 print("Saliendo del sistema.")
                 break
-
             else:
                 print("Opción no válida.")
                 
