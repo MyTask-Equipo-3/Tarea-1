@@ -31,13 +31,13 @@ def main():
             print("")
 
             if opcion == '1':
-                username = input("Nombre de usuario: ")
-                password = input("Contraseña: ")
+                username = input("Nombre de usuario: ").strip()
+                password = input("Contraseña: ").strip()
                 user_logged = auth.login(username, password)
 
             elif opcion == '2':
-                username = input("Nombre de usuario: ")
-                password = input("Contraseña: ")
+                username = input("Nombre de usuario: ").strip()
+                password = input("Contraseña: ").strip()
                 user_logged = auth.register(username, password)
 
             elif opcion == '3':
