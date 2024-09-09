@@ -27,7 +27,7 @@ def main():
               ======================================================
             """)
 
-            opcion = input("Seleccione una opción: ")
+            opcion = input("Seleccione una opción: ").strip()
             print("")
 
             if opcion == '1':
@@ -65,18 +65,18 @@ def main():
             ===========================
             """)
 
-        option = input("Selecciona una opción: ")
+        option = input("Selecciona una opción: ").strip()
 
         if option == "1":
             tasks.list_tasks(username)
             print("\n===========================")
-            input("Enter para volver al Menú: ")
+            input("Enter para volver al Menú: ").strip()
         
         elif option == "2":
-            title = input("Título: ")
-            description = input("Descripción: ")
-            due_date = input("Fecha de vencimiento (DD-MM-YYYY): ")
-            label = input("Etiqueta: ")
+            title = input("Título: ").strip()
+            description = input("Descripción: ").strip()
+            due_date = input("Fecha de vencimiento (DD-MM-YYYY): ").strip()
+            label = input("Etiqueta: ").strip()
 
             try:
                 datetime.strptime(due_date, "%d-%m-%Y")
@@ -92,7 +92,7 @@ def main():
             print(f"  Estado: pendiente")
             print("")
 
-            cancelar = input("Esta correcto?\n1. Confirmar\n2. Cancelar\n")
+            cancelar = input("Esta correcto?\n1. Confirmar\n2. Cancelar\n").strip()
             print("")
             if cancelar == "1":
                 tasks.create_task(username, title, description, due_date, label)
@@ -103,7 +103,7 @@ def main():
                 continue
 
         elif option == "3":
-            index = int(input("Índice de tarea a actualizar: ")) - 1
+            index = int(input("Índice de tarea a actualizar: ").strip()) - 1
             tasks.update_task(index, username)
 
         elif option == "4":
@@ -142,7 +142,7 @@ def main():
                 continue
 
             print("\n===========================")
-            input("Enter para volver al Menú: ")
+            input("Enter para volver al Menú: ").strip()
 
 
         elif option == "5":
@@ -153,7 +153,7 @@ def main():
             search_option = input("Selecciona una opción: ").strip()
 
             if search_option == "1":
-                title = input("Ingresa el título: ")
+                title = input("Ingresa el título: ").strip()
                 task = utils.search_task_by_title(tasks.load_tasks(username), title)
                 if task:
                     print("La tarea más cercana al título ingresado es: ")
@@ -161,7 +161,7 @@ def main():
                 else:
                     print("Tarea no encontrada.")
             elif search_option == "2":
-                description = input("Ingresa la descripción: ")
+                description = input("Ingresa la descripción: ").strip()
                 task = utils.search_task_by_description(tasks.load_tasks(username), description)
                 if task:
                     print("La tarea más cercana a la descripción ingresada es: ")
@@ -173,10 +173,10 @@ def main():
                 continue
 
             print("\n===========================")
-            input("Enter para volver al Menú: ")
+            input("Enter para volver al Menú: ").strip()
 
         elif option == "6":
-            index = int(input("Índice de tarea a eliminar: ")) - 1
+            index = int(input("Índice de tarea a eliminar: ").strip()) - 1
             tasks.delete_task(index, username)
         
         elif option == "7":
