@@ -1,3 +1,5 @@
+from datetime import datetime
+
 def filter_tasks_by_label(tasks,label):
     for i in range(1,len(tasks) + 1):
         tasks[i - 1] = tasks[i - 1] | {"id":i}
@@ -50,3 +52,18 @@ def search_task_by_description(tasks,description):
             searched_task["id"] = i
     return searched_task
 
+from datetime import datetime
+
+# Función para validar la fecha en formato DD-MM-YYYY
+def verify_date(date_str):
+    try:
+        task_date = datetime.strptime(date_str, "%d-%m-%Y")
+        current_date = datetime.now()
+
+        if current_date.date() <= task_date.date():
+            return True
+        else:
+            return False
+    except ValueError:
+        print("Error en verificar fecha.")
+        return False

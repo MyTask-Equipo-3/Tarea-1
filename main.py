@@ -1,7 +1,7 @@
 import auth
 import tasks
 import utils
-
+from datetime import datetime
 
 def main():
     
@@ -28,18 +28,21 @@ def main():
             """)
 
             opcion = input("Seleccione una opción: ")
+            print("")
 
             if opcion == '1':
-                username = input("Nombre de usuario:")
-                password = input("Contraseña:")
+                username = input("Nombre de usuario: ")
+                password = input("Contraseña: ")
                 user_logged = auth.login(username, password)
 
             elif opcion == '2':
-                username = input("Nombre de usuario:")
-                password = input("Contraseña:")
+                username = input("Nombre de usuario: ")
+                password = input("Contraseña: ")
                 user_logged = auth.register(username, password)
+
             elif opcion == '3':
                 return
+            
             else:
                 print("Opción no válida")
                 continue
@@ -72,17 +75,25 @@ def main():
         elif option == "2":
             title = input("Título: ")
             description = input("Descripción: ")
-            due_date = input("Fecha de vencimiento (YYYY-MM-DD): ")
+            due_date = input("Fecha de vencimiento (DD-MM-YYYY): ")
             label = input("Etiqueta: ")
 
+            try:
+                datetime.strptime(due_date, "%d-%m-%Y")
+            except ValueError:
+                print("Formato de fecha no válida")
+                continue
+            print("")
             print("La nueva tarea a agregar será:\n")
             print(f"  Título: {title}")
             print(f"  Descripción: {description}")
             print(f"  Fecha de vencimiento: {due_date}")
             print(f"  Etiqueta: {label}")
-            print(f"  Estado: abierto")
+            print(f"  Estado: pendiente")
+            print("")
 
             cancelar = input("Esta correcto?\n1. Confirmar\n2. Cancelar\n")
+            print("")
             if cancelar == "1":
                 tasks.create_task(username, title, description, due_date, label)
             elif cancelar == "2":
@@ -119,7 +130,7 @@ def main():
                     )
                 )
             elif filter_option == "3":
-                date = input("Ingresa la fecha de vencimiento (YYYY-MM-DD): ").strip()
+                date = input("Ingresa la fecha de vencimiento (DD-MM-YYYY): ").strip()
                 tasks.show_tasks_with_id(
                     utils.filter_tasks_by_expiration_date(
                         tasks.load_tasks(username),
@@ -169,7 +180,7 @@ def main():
             tasks.delete_task(index, username)
         
         elif option == "7":
-            tasks.delete_all(index, username)
+            tasks.delete_all(username)
 
         elif option == "8":
             user_logged = False

@@ -1,5 +1,6 @@
 import json
 import utils
+from datetime import datetime
 
 # Función para obtener la ruta del archivo de tareas del usuario
 def get_tasks_file(username):
@@ -37,13 +38,13 @@ def create_task(username, title, description, due_date, label):
         "estado": "pendiente"
     }
 
-    #validar fecha?
-
-    tareas = load_tasks(username)
-    tareas.append(new_task)
-    if not save_tasks(username, tareas):
-        print("Tarea no creada.")
-    print("Tarea creada exitosamente.")
+    if utils.verify_date(due_date):
+        tareas = load_tasks(username)
+        tareas.append(new_task)
+        save_tasks(username, tareas)
+        print("Tarea creada exitosamente.")
+    else:
+        print("Tarea no creada. Se ingresó una fecha pasada.")
 
 
 def show_tasks_with_id(tareas):
@@ -81,27 +82,37 @@ def update_task(index, username):
         print("Número de tarea inválido.")
         return
 
-
     title = input("Actualizar título (deja en blanco para mantener): ")
     description = input("Actualizar descripción (deja en blanco para mantener): ")
-    due_date = input("Actualizar fecha de vencimiento (YYYY-MM-DD) (deja en blanco para mantener): ")
+    due_date = input("Actualizar fecha de vencimiento (DD-MM-YYYY) (deja en blanco para mantener): ")
+
+    try:
+        datetime.strptime(due_date, "%d-%m-%Y")
+    except ValueError:
+        print("Formato de fecha no válida.")
+        return
+    
     label = input("Actualizar etiqueta (deja en blanco para mantener): ")
-    status = input("Actualizar etiqueta (deja en blanco para mantener): ")
+    status = input("Actualizar estado (pendiente, en progreso o completada) (deja en blanco para mantener): ")
 
     if title:
         tareas[index]['titulo'] = title
     if description:
         tareas[index]['descripcion'] = description
-    if due_date and utils.validar_fecha(due_date):
-        tareas[index]['fecha_vencimiento'] = due_date
+    if due_date:
+        if utils.verify_date(due_date):
+            tareas[index]['fecha_vencimiento'] = due_date
+        else:
+            print("Tarea no actualizada. Se ingresó una fecha pasada.")
+            return
     if label:
         tareas[index]['etiqueta'] = label
     if status:
-        # Asegúrate de que el estado sea válido antes de actualizar
-        if status in ['pendiente', 'en progreso', 'completada']:
+        if status in ['pendiente', 'en progreso', 'atrasada', 'completada']:
             tareas[index]['estado'] = status
         else:
-            print("Estado inválido. No se actualizó el estado.")
+            print("Estado no válido. No se actualizó el estado.")
+            return
 
     save_tasks(username, tareas)
     print("Tarea actualizada con éxito.")
@@ -117,7 +128,7 @@ def delete_task(index, username):
     
     tarea_eliminada = tareas.pop(index)
     save_tasks(username, tareas)
-    print("Tarea '{tarea_eliminada['title']}' eliminada con éxito.")
+    print(f"Tarea {tarea_eliminada['title']} eliminada con éxito.")
 
 # Función para eliminar todas las tareas de un usuario
 def delete_all(username):
@@ -126,7 +137,7 @@ def delete_all(username):
     
     # Verificar si ya no hay tareas
     if not tasks:
-        print(f"El usuario {username} no tiene tareas para eliminar.")
+        print("No se encontro ninguna tarea.")
         return
     
     # Sobrescribir las tareas del usuario con una lista vacía
