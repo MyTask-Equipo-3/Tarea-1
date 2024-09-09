@@ -82,9 +82,9 @@ def update_task(index, username):
         print("Número de tarea inválido.")
         return
 
-    title = input("Actualizar título (deja en blanco para mantener): ")
-    description = input("Actualizar descripción (deja en blanco para mantener): ")
-    due_date = input("Actualizar fecha de vencimiento (DD-MM-YYYY) (deja en blanco para mantener): ")
+    title = input("Actualizar título (deja en blanco para mantener): ").strip()
+    description = input("Actualizar descripción (deja en blanco para mantener): ").strip()
+    due_date = input("Actualizar fecha de vencimiento (DD-MM-YYYY) (deja en blanco para mantener): ").strip()
 
     try:
         datetime.strptime(due_date, "%d-%m-%Y")
@@ -92,8 +92,8 @@ def update_task(index, username):
         print("Formato de fecha no válida.")
         return
     
-    label = input("Actualizar etiqueta (deja en blanco para mantener): ")
-    status = input("Actualizar estado (pendiente, en progreso o completada) (deja en blanco para mantener): ")
+    label = input("Actualizar etiqueta (deja en blanco para mantener): ").strip()
+    status = input("Actualizar estado (pendiente, en progreso o completada) (deja en blanco para mantener): ").strip()
 
     if title:
         tareas[index]['titulo'] = title
