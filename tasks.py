@@ -128,7 +128,7 @@ def delete_task(index, username):
     
     tarea_eliminada = tareas.pop(index)
     save_tasks(username, tareas)
-    print(f"Tarea {tarea_eliminada['title']} eliminada con éxito.")
+    print(f"Tarea {tarea_eliminada['titulo']} eliminada con éxito.")
 
 # Función para eliminar todas las tareas de un usuario
 def delete_all(username):
