@@ -47,7 +47,7 @@ def search_task_by_description(tasks,description):
     for i,task in enumerate(tasks,start=1):
         d = levenshtein_distance(task["titulo"].lower(),description.lower())
         if d < distance:
-            d = distance
+            distance = d
             searched_task = task
             searched_task["id"] = i
     return searched_task
